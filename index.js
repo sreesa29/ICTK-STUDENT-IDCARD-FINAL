@@ -16,14 +16,14 @@ const batchRouter = require("./src/route/batch_manager");
 
 
 const app = express(); 
-
+app.use( express.static(path.join(__dirname,'/src/build')))
 const cors = require('cors');
 const { get } = require('express/lib/response');
 const { ClientRequest } = require('http');
 app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use( express.static(path.join(__dirname,'/src/build')))
+
 //cors
 app.use(function (req, res, next) {
 
@@ -208,7 +208,7 @@ app.post("/api/login", (req, res) => {
                       }
                   )
               } else {
-                  return res.json({message: "Invalid Username or Password"})
+                  return res.json({message: "Invalid Email or Password"})
               }
           })
 
@@ -872,7 +872,7 @@ app.put("/:id/rejected",verifyJWT, async(req,res)=>{
 
 const port = process.env.PORT || 8000; 
 
-app.get("/*",(req,res)=>{
+app.get("*",(req,res)=>{
     res.sendFile(path.join(__dirname+'/src/build/index.html'));
 })
 // This displays message that the server running and listening to specified port
